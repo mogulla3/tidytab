@@ -28,8 +28,6 @@
     "chrome_style": true
   },
   "permissions": [
-    "contentSettings",
-    "tabCapture",
     "tabs",
     "<all_urls>"
   ]
