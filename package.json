@@ -4,17 +4,10 @@
   "version": "0.0.1",
   "description": "Tidy up tabs on your browser",
   "scripts": {
-    "start": "npm run dev:chrome",
-    "build": "npm run build:chrome",
-    "build:chrome": "gulp pack --production --vendor=chrome",
-    "build:firefox": "gulp pack --production --vendor=firefox",
-    "build:opera": "gulp pack --production --vendor=opera",
-    "build:edge": "gulp pack --production --vendor=edge",
+    "start": "npm run dev:chrome --mode development",
+    "build": "npm run build:chrome --mode production",
     "dev": "npm run dev:chrome",
-    "dev:chrome": "gulp --watch --vendor=chrome",
-    "dev:firefox": "gulp --watch --vendor=firefox",
-    "dev:opera": "gulp --watch --vendor=opera",
-    "dev:edge": "gulp --watch --vendor=edge",
+    "dev:chrome": "gulp --watch --vendor=chrome --mode development",
     "lint": "standard"
   },
   "standard": {
@@ -31,7 +24,7 @@
     "chai": "4.x.x",
     "chromereload": "0.x.x",
     "debounce": "1.x.x",
-    "del": "3.x.x",
+    "del": "4.x.x",
     "gulp": "^3.9.1",
     "gulp-bump": "2.x.x",
     "gulp-cache": "0.x.x",
@@ -51,13 +44,13 @@
     "gulp-util": "3.x.x",
     "gulp-zip": "^4.x.x",
     "require-dir": "0.x.x",
-    "standard": "^10.0.2",
-    "ts-loader": "^2.x.x",
+    "standard": "^12.x.x",
+    "ts-loader": "^6.x.x",
     "tslint": "^5.x.x",
     "typescript": "^3.4.5",
     "vinyl-named": "1.x.x",
-    "webpack": "3.x.x",
-    "webpack-stream": "3.x.x",
-    "yargs": "^8.x.x"
+    "webpack": "4.x.x",
+    "webpack-stream": "5.x.x",
+    "yargs": "^13.x.x"
   }
 }
