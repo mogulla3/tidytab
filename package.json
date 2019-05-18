@@ -1,8 +1,8 @@
 {
   "name": "tidytab",
   "private": true,
-  "version": "0.0.0",
-  "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "version": "0.0.1",
+  "description": "Tidy up tabs on your browser",
   "scripts": {
     "start": "npm run dev:chrome",
     "build": "npm run build:chrome",
