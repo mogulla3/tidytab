@@ -1,19 +1,21 @@
-body, div, ul {
-  margin: 0;
-  padding: 0;
+body,
+div,
+ul {
+    margin: 0;
+    padding: 0;
 }
 
 ul {
-  list-style-type: none;
+    list-style-type: none;
 }
 
 li {
-  padding: 10px 15px;
-  cursor: pointer;
-  white-space: nowrap;
+    padding: 10px 15px;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 li:hover {
-  color: #ffffff;
-  background:#0181ff;
+    color: #ffffff;
+    background: #0181ff;
 }
