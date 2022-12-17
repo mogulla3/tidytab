@@ -4,6 +4,7 @@ const sortAscBtn = document.getElementById("sort_asc")!;
 const sortDescBtn = document.getElementById("sort_desc")!;
 const removeDupBtn = document.getElementById("remove_dup")!;
 const removeInitialBtn = document.getElementById("remove_initial")!;
+const onlyCurrentTabBtn = document.getElementById("only_current_tab")!;
 
 const sortTab = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab, order: string): number => {
     if (tabA.url === undefined || tabB.url === undefined) {
@@ -72,6 +73,12 @@ removeDupBtn.addEventListener("click", (_event) => {
 
 removeInitialBtn.addEventListener("click", (_event) => {
     chrome.tabs.query({ url: "chrome://newtab/", currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
+        chrome.tabs.remove(tabs.map((tab: chrome.tabs.Tab) => tab.id!));
+    });
+});
+
+onlyCurrentTabBtn.addEventListener("click", (_event) => {
+    chrome.tabs.query({ active: false, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
         chrome.tabs.remove(tabs.map((tab: chrome.tabs.Tab) => tab.id!));
     });
 });
