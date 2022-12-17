@@ -37,7 +37,7 @@ const normalizeUrl = (urlStr: string): string => {
     const host = url.host.startsWith("www.") ? url.host.slice(4) : url.host;
 
     return `${host}${url.pathname}`;
-}
+};
 
 const sortTabOrderByAsc = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab): number => {
     return sortTab(tabA, tabB, "asc");
