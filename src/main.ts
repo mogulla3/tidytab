@@ -34,7 +34,6 @@ const sortTab = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab, order: string): n
 // => "mogulla3.tech:9000/foo/bar/baz"
 const normalizeUrl = (urlStr: string): string => {
     const url: URL = new URL(urlStr);
-
     const host = url.host.startsWith("www.") ? url.host.slice(4) : url.host;
 
     return `${host}${url.pathname}`;
