@@ -35,7 +35,7 @@ const sortTabOrderByDesc = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab): numbe
 };
 
 sortAscBtn.addEventListener("click", (_event) => {
-    chrome.tabs.query({}, (tabs: chrome.tabs.Tab[]) => {
+    chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
         tabs.sort(sortTabOrderByAsc);
         tabs.filter((tab: chrome.tabs.Tab) => tab.id !== undefined).forEach((tab: chrome.tabs.Tab, i: number) => {
             chrome.tabs.move(tab.id!, { index: i });
@@ -44,7 +44,7 @@ sortAscBtn.addEventListener("click", (_event) => {
 });
 
 sortDescBtn.addEventListener("click", (_event) => {
-    chrome.tabs.query({}, (tabs: chrome.tabs.Tab[]) => {
+    chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
         tabs.sort(sortTabOrderByDesc);
         tabs.filter((tab: chrome.tabs.Tab) => tab.id !== undefined).forEach((tab: chrome.tabs.Tab, i: number) => {
             chrome.tabs.move(tab.id!, { index: i });
@@ -53,7 +53,7 @@ sortDescBtn.addEventListener("click", (_event) => {
 });
 
 removeDupBtn.addEventListener("click", (_event) => {
-    chrome.tabs.query({}, (tabs: chrome.tabs.Tab[]) => {
+    chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
         tabs.sort(sortTabOrderByAsc);
 
         const checkedUrls: Array<string> = [];
@@ -71,7 +71,7 @@ removeDupBtn.addEventListener("click", (_event) => {
 });
 
 removeInitialBtn.addEventListener("click", (_event) => {
-    chrome.tabs.query({ url: "chrome://newtab/" }, (tabs: chrome.tabs.Tab[]) => {
+    chrome.tabs.query({ url: "chrome://newtab/", currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
         chrome.tabs.remove(tabs.map((tab: chrome.tabs.Tab) => tab.id!));
     });
 });
