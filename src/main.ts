@@ -67,17 +67,21 @@ sortDescBtn.addEventListener("click", (_event) => {
 
 removeDupBtn.addEventListener("click", (_event) => {
     chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-        tabs.sort(sortTabOrderByAsc);
-
-        const checkedUrls: Array<string> = [];
+        const urls: Array<string> = [];
         const duplicatedTabIds: Array<number> = [];
-        tabs.forEach((tab: chrome.tabs.Tab) => {
-            if (checkedUrls.includes(tab.url!)) {
-                duplicatedTabIds.push(tab.id!);
-            } else {
-                checkedUrls.push(tab.url!);
+
+        for (const tab of tabs) {
+            if (tab.id === undefined || tab.url === undefined) {
+                continue;
             }
-        });
+
+            if (urls.includes(tab.url)) {
+                duplicatedTabIds.push(tab.id);
+                continue;
+            }
+
+            urls.push(tab.url);
+        }
 
         chrome.tabs.remove(duplicatedTabIds);
     });
