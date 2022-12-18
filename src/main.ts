@@ -1,10 +1,10 @@
 import "./style.css";
 
-const sortAscBtn = document.getElementById("sort_asc")!;
-const sortDescBtn = document.getElementById("sort_desc")!;
-const removeDupBtn = document.getElementById("remove_dup")!;
-const removeInitialBtn = document.getElementById("remove_initial")!;
-const onlyCurrentTabBtn = document.getElementById("only_current_tab")!;
+const sortAscBtn = document.getElementById("sort_asc");
+const sortDescBtn = document.getElementById("sort_desc");
+const removeDupBtn = document.getElementById("remove_dup");
+const removeInitialBtn = document.getElementById("remove_initial");
+const onlyCurrentTabBtn = document.getElementById("only_current_tab");
 
 const enum SortOrder {
     ASC,
@@ -58,7 +58,7 @@ const extractTabIds = (tabs: chrome.tabs.Tab[]): number[] => {
     return tabs.map((tab) => tab.id).filter((tabId): tabId is number => tabId !== undefined);
 };
 
-sortAscBtn.addEventListener("click", (_event) => {
+sortAscBtn?.addEventListener("click", (_event) => {
     chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
         for (const [index, tabId] of extractTabIds(tabs.sort(sortTabOrderByAsc)).entries()) {
             chrome.tabs.move(tabId, { index: index });
@@ -66,7 +66,7 @@ sortAscBtn.addEventListener("click", (_event) => {
     });
 });
 
-sortDescBtn.addEventListener("click", (_event) => {
+sortDescBtn?.addEventListener("click", (_event) => {
     chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
         for (const [index, tabId] of extractTabIds(tabs.sort(sortTabOrderByDesc)).entries()) {
             chrome.tabs.move(tabId, { index: index });
@@ -74,7 +74,7 @@ sortDescBtn.addEventListener("click", (_event) => {
     });
 });
 
-removeDupBtn.addEventListener("click", (_event) => {
+removeDupBtn?.addEventListener("click", (_event) => {
     chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
         const urls: string[] = [];
         const duplicatedTabIds: number[] = [];
@@ -96,13 +96,13 @@ removeDupBtn.addEventListener("click", (_event) => {
     });
 });
 
-removeInitialBtn.addEventListener("click", (_event) => {
+removeInitialBtn?.addEventListener("click", (_event) => {
     chrome.tabs.query({ url: "chrome://newtab/", currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
         chrome.tabs.remove(extractTabIds(tabs));
     });
 });
 
-onlyCurrentTabBtn.addEventListener("click", (_event) => {
+onlyCurrentTabBtn?.addEventListener("click", (_event) => {
     chrome.tabs.query({ active: false, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
         chrome.tabs.remove(extractTabIds(tabs));
     });
