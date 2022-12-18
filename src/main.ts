@@ -6,7 +6,12 @@ const removeDupBtn = document.getElementById("remove_dup")!;
 const removeInitialBtn = document.getElementById("remove_initial")!;
 const onlyCurrentTabBtn = document.getElementById("only_current_tab")!;
 
-const sortTab = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab, order: string): number => {
+const enum SortOrder {
+    ASC,
+    DESC,
+}
+
+const sortTab = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab, sortOrder: SortOrder): number => {
     if (tabA.url === undefined || tabB.url === undefined) {
         return 0;
     }
@@ -14,10 +19,12 @@ const sortTab = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab, order: string): n
     const urlA = normalizeUrl(tabA.url);
     const urlB = normalizeUrl(tabB.url);
 
-    if (order === "asc") {
+    if (sortOrder === SortOrder.ASC) {
         if (urlA < urlB) return -1;
         if (urlA > urlB) return 1;
-    } else if (order === "desc") {
+    }
+
+    if (sortOrder === SortOrder.DESC) {
         if (urlA < urlB) return 1;
         if (urlA > urlB) return -1;
     }
@@ -25,9 +32,17 @@ const sortTab = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab, order: string): n
     return 0;
 };
 
-// protocol (http, https) を削る
-// host の prefix `www.` を削る
-// searchParams を削る
+const sortTabOrderByAsc = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab): number => {
+    return sortTab(tabA, tabB, SortOrder.ASC);
+};
+
+const sortTabOrderByDesc = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab): number => {
+    return sortTab(tabA, tabB, SortOrder.DESC);
+};
+
+// - Remove protocol(http, https).
+// - Remove `www.` prefix from hostname.
+// - Remove searchParams.
 //
 // Example:
 // normalizeUrl("https://www.mogulla3.tech:9000/foo/bar/baz?q=100")
@@ -39,36 +54,30 @@ const normalizeUrl = (urlStr: string): string => {
     return `${host}${url.pathname}`;
 };
 
-const sortTabOrderByAsc = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab): number => {
-    return sortTab(tabA, tabB, "asc");
-};
-
-const sortTabOrderByDesc = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab): number => {
-    return sortTab(tabA, tabB, "desc");
+const extractTabIds = (tabs: chrome.tabs.Tab[]): number[] => {
+    return tabs.map((tab) => tab.id).filter((tabId): tabId is number => tabId !== undefined);
 };
 
 sortAscBtn.addEventListener("click", (_event) => {
     chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-        tabs.sort(sortTabOrderByAsc);
-        tabs.filter((tab: chrome.tabs.Tab) => tab.id !== undefined).forEach((tab: chrome.tabs.Tab, i: number) => {
-            chrome.tabs.move(tab.id!, { index: i });
-        });
+        for (const [index, tabId] of extractTabIds(tabs.sort(sortTabOrderByAsc)).entries()) {
+            chrome.tabs.move(tabId, { index: index });
+        }
     });
 });
 
 sortDescBtn.addEventListener("click", (_event) => {
     chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-        tabs.sort(sortTabOrderByDesc);
-        tabs.filter((tab: chrome.tabs.Tab) => tab.id !== undefined).forEach((tab: chrome.tabs.Tab, i: number) => {
-            chrome.tabs.move(tab.id!, { index: i });
-        });
+        for (const [index, tabId] of extractTabIds(tabs.sort(sortTabOrderByDesc)).entries()) {
+            chrome.tabs.move(tabId, { index: index });
+        }
     });
 });
 
 removeDupBtn.addEventListener("click", (_event) => {
     chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-        const urls: Array<string> = [];
-        const duplicatedTabIds: Array<number> = [];
+        const urls: string[] = [];
+        const duplicatedTabIds: number[] = [];
 
         for (const tab of tabs) {
             if (tab.id === undefined || tab.url === undefined) {
@@ -89,12 +98,12 @@ removeDupBtn.addEventListener("click", (_event) => {
 
 removeInitialBtn.addEventListener("click", (_event) => {
     chrome.tabs.query({ url: "chrome://newtab/", currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-        chrome.tabs.remove(tabs.map((tab: chrome.tabs.Tab) => tab.id!));
+        chrome.tabs.remove(extractTabIds(tabs));
     });
 });
 
 onlyCurrentTabBtn.addEventListener("click", (_event) => {
     chrome.tabs.query({ active: false, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-        chrome.tabs.remove(tabs.map((tab: chrome.tabs.Tab) => tab.id!));
+        chrome.tabs.remove(extractTabIds(tabs));
     });
 });
