@@ -1,5 +1,5 @@
 import "./style.css";
-import { sortTabOrderByAsc, sortTabOrderByDesc } from "./sort.js";
+import { sortTabOrderByAsc, sortTabOrderByDesc } from "./sortTab.js";
 import { extractTabIds } from "./utils.js";
 
 document.getElementById("sort_asc")?.addEventListener("click", (_event) => {
