@@ -17,7 +17,7 @@ const normalizeUrl = (url: string): string => {
   return `${host}${urlObj.pathname}`;
 };
 
-const sortTab = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab, sortOrder: SortOrder): number => {
+const compareTabs = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab, sortOrder: SortOrder): number => {
   if (tabA.url === undefined || tabB.url === undefined) {
     return 0;
   }
@@ -38,10 +38,18 @@ const sortTab = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab, sortOrder: SortOr
   return 0;
 };
 
-export const sortTabOrderByAsc = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab): number => {
-  return sortTab(tabA, tabB, SortOrder.ASC);
+const compareTabsOrderByAsc = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab): number => {
+  return compareTabs(tabA, tabB, SortOrder.ASC);
 };
 
-export const sortTabOrderByDesc = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab): number => {
-  return sortTab(tabA, tabB, SortOrder.DESC);
+const compareTabsOrderByDesc = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab): number => {
+  return compareTabs(tabA, tabB, SortOrder.DESC);
+};
+
+export const sortTabOrderByAsc = (tabs: chrome.tabs.Tab[]): chrome.tabs.Tab[] => {
+  return tabs.sort(compareTabsOrderByAsc);
+};
+
+export const sortTabOrderByDesc = (tabs: chrome.tabs.Tab[]): chrome.tabs.Tab[] => {
+  return tabs.sort(compareTabsOrderByDesc);
 };

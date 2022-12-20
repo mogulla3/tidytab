@@ -4,7 +4,7 @@ import { extractTabIds } from "./utils.js";
 
 document.getElementById("sort_asc")?.addEventListener("click", (_event) => {
   chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-    for (const [index, tabId] of extractTabIds(tabs.sort(sortTabOrderByAsc)).entries()) {
+    for (const [index, tabId] of extractTabIds(sortTabOrderByAsc(tabs)).entries()) {
       chrome.tabs.move(tabId, { index: index });
     }
   });
@@ -12,7 +12,7 @@ document.getElementById("sort_asc")?.addEventListener("click", (_event) => {
 
 document.getElementById("sort_desc")?.addEventListener("click", (_event) => {
   chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-    for (const [index, tabId] of extractTabIds(tabs.sort(sortTabOrderByDesc)).entries()) {
+    for (const [index, tabId] of extractTabIds(sortTabOrderByDesc(tabs)).entries()) {
       chrome.tabs.move(tabId, { index: index });
     }
   });
