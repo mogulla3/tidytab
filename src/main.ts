@@ -68,3 +68,9 @@ document.getElementById("group_tabs")?.addEventListener("click", (_event) => {
     }
   });
 });
+
+document.getElementById("ungroup_tabs")?.addEventListener("click", (_event) => {
+  chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
+    chrome.tabs.ungroup(extractTabIds(tabs))
+  });
+});
