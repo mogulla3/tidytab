@@ -1,7 +1,7 @@
 import "./style.css";
-import { sortTabsOrderByAsc, sortTabsOrderByDesc } from "./sortTab.js";
+import { sortTabsOrderByAsc, sortTabsOrderByDesc } from "./sortTab";
 import { groupTabsByDomain } from "./groupTab";
-import { extractTabIds } from "./utils.js";
+import { extractTabIds } from "./utils";
 
 document.getElementById("sort_asc")?.addEventListener("click", (_event) => {
   chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
