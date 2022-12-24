@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { sortTabOrderByAsc, sortTabOrderByDesc } from "../src/sortTab";
+import { sortTabsOrderByAsc, sortTabsOrderByDesc } from "../src/sortTab";
 
 const buildTab = (props: Pick<chrome.tabs.Tab, "url">): chrome.tabs.Tab => {
   return Object.assign(
@@ -19,9 +19,9 @@ const buildTab = (props: Pick<chrome.tabs.Tab, "url">): chrome.tabs.Tab => {
   );
 }
 
-describe("sortTabOrderByAsc", () => {
+describe("sortTabsOrderByAsc", () => {
   test("returns tabs sorted by URL in asc order", () => {
-    const tabs = sortTabOrderByAsc([
+    const tabs = sortTabsOrderByAsc([
       buildTab({ url: "https://b.com" }),
       buildTab({ url: "https://c.com/2" }),
       buildTab({ url: "https://c.com/1" }),
@@ -36,7 +36,7 @@ describe("sortTabOrderByAsc", () => {
 
   describe("when a tab with URL containing `www` subdomain exists", () => {
     test("returns tabs sorted by URL in asc order ignoring www subdomain", () => {
-      const tabs = sortTabOrderByAsc([
+      const tabs = sortTabsOrderByAsc([
         buildTab({ url: "https://b.com" }),
         buildTab({ url: "https://www.a.com" }),
       ]);
@@ -48,7 +48,7 @@ describe("sortTabOrderByAsc", () => {
 
   describe("when a tab with URL containing `http` scheme exists", () => {
     test("returns tabs sorted by URL in asc order ignoring schemes", () => {
-      const tabs = sortTabOrderByAsc([
+      const tabs = sortTabsOrderByAsc([
         buildTab({ url: "http://b.com" }),
         buildTab({ url: "https://a.com" }),
       ]);
@@ -59,9 +59,9 @@ describe("sortTabOrderByAsc", () => {
   });
 });
 
-describe("sortTabOrderByDesc", () => {
+describe("sortTabsOrderByDesc", () => {
   test("returns tabs sorted by URL in desc order", () => {
-    const tabs = sortTabOrderByDesc([
+    const tabs = sortTabsOrderByDesc([
       buildTab({ url: "https://b.com" }),
       buildTab({ url: "https://c.com/2" }),
       buildTab({ url: "https://c.com/1" }),
@@ -76,7 +76,7 @@ describe("sortTabOrderByDesc", () => {
 
   describe("when a tab with URL containing `www` subdomain exists", () => {
     test("returns tabs sorted by URL in desc order ignoring www subdomain", () => {
-      const tabs = sortTabOrderByDesc([
+      const tabs = sortTabsOrderByDesc([
         buildTab({ url: "https://b.com" }),
         buildTab({ url: "https://www.a.com" }),
       ]);
@@ -88,7 +88,7 @@ describe("sortTabOrderByDesc", () => {
 
   describe("when a tab with URL containing `http` scheme exists", () => {
     test("returns tabs sorted by URL in desc order ignoring schemes", () => {
-      const tabs = sortTabOrderByDesc([
+      const tabs = sortTabsOrderByDesc([
         buildTab({ url: "http://b.com" }),
         buildTab({ url: "https://a.com" }),
       ]);

@@ -1,11 +1,11 @@
 import "./style.css";
-import { sortTabOrderByAsc, sortTabOrderByDesc } from "./sortTab.js";
-import { groupTabsByDomain } from "./groupTabsByDomain";
+import { sortTabsOrderByAsc, sortTabsOrderByDesc } from "./sortTab.js";
+import { groupTabsByDomain } from "./groupTab";
 import { extractTabIds } from "./utils.js";
 
 document.getElementById("sort_asc")?.addEventListener("click", (_event) => {
   chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-    for (const [index, tabId] of extractTabIds(sortTabOrderByAsc(tabs)).entries()) {
+    for (const [index, tabId] of extractTabIds(sortTabsOrderByAsc(tabs)).entries()) {
       chrome.tabs.move(tabId, { index: index });
     }
   });
@@ -13,7 +13,7 @@ document.getElementById("sort_asc")?.addEventListener("click", (_event) => {
 
 document.getElementById("sort_desc")?.addEventListener("click", (_event) => {
   chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-    for (const [index, tabId] of extractTabIds(sortTabOrderByDesc(tabs)).entries()) {
+    for (const [index, tabId] of extractTabIds(sortTabsOrderByDesc(tabs)).entries()) {
       chrome.tabs.move(tabId, { index: index });
     }
   });

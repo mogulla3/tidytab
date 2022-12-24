@@ -46,10 +46,10 @@ const compareTabsOrderByDesc = (tabA: chrome.tabs.Tab, tabB: chrome.tabs.Tab): n
   return compareTabs(tabA, tabB, SortOrder.DESC);
 };
 
-export const sortTabOrderByAsc = (tabs: chrome.tabs.Tab[]): chrome.tabs.Tab[] => {
+export const sortTabsOrderByAsc = (tabs: chrome.tabs.Tab[]): chrome.tabs.Tab[] => {
   return tabs.sort(compareTabsOrderByAsc);
 };
 
-export const sortTabOrderByDesc = (tabs: chrome.tabs.Tab[]): chrome.tabs.Tab[] => {
+export const sortTabsOrderByDesc = (tabs: chrome.tabs.Tab[]): chrome.tabs.Tab[] => {
   return tabs.sort(compareTabsOrderByDesc);
 };
