@@ -4,14 +4,14 @@ export const groupTabsByDomain = (tabs: chrome.tabs.Tab[]): { [key: string]: chr
       return result;
     }
 
-    const url = new URL(tab.url)
+    const url = new URL(tab.url);
     const hostname = url.hostname.startsWith("www.") ? url.hostname.slice(4) : url.hostname;
     if (hostname in result) {
-      result[hostname].push(tab)
+      result[hostname].push(tab);
     } else {
-      result[hostname] = [tab]
+      result[hostname] = [tab];
     }
 
     return result;
-  }, {})
+  }, {});
 };

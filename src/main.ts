@@ -74,7 +74,7 @@ document.getElementById("only_current_tab")?.addEventListener("click", (_event) 
 
 document.getElementById("group_tabs")?.addEventListener("click", (_event) => {
   chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-    const tabsGroupByDomain = groupTabsByDomain(tabs)
+    const tabsGroupByDomain = groupTabsByDomain(tabs);
 
     for (const [domain, tabs] of Object.entries(tabsGroupByDomain)) {
       if (2 > tabs.length) {
@@ -82,7 +82,7 @@ document.getElementById("group_tabs")?.addEventListener("click", (_event) => {
       }
 
       chrome.tabs.group({ tabIds: extractTabIds(tabs) }, (groupId: number) => {
-        chrome.tabGroups.update(groupId, { title: domain, collapsed: true })
+        chrome.tabGroups.update(groupId, { title: domain, collapsed: true });
       });
     }
   });
@@ -90,6 +90,6 @@ document.getElementById("group_tabs")?.addEventListener("click", (_event) => {
 
 document.getElementById("ungroup_tabs")?.addEventListener("click", (_event) => {
   chrome.tabs.query({ currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-    chrome.tabs.ungroup(extractTabIds(tabs))
+    chrome.tabs.ungroup(extractTabIds(tabs));
   });
 });

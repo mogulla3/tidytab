@@ -1,12 +1,16 @@
 import { SortOrder } from "./sortOrder";
 
-const compareTabGroups = (tabGroupA: chrome.tabGroups.TabGroup, tabGroupB: chrome.tabGroups.TabGroup, sortOrder: SortOrder): number => {
+const compareTabGroups = (
+  tabGroupA: chrome.tabGroups.TabGroup,
+  tabGroupB: chrome.tabGroups.TabGroup,
+  sortOrder: SortOrder
+): number => {
   if (tabGroupA.title === undefined || tabGroupB.title === undefined) {
     return 0;
   }
 
-  const titleA = tabGroupA.title
-  const titleB = tabGroupB.title
+  const titleA = tabGroupA.title;
+  const titleB = tabGroupB.title;
 
   if (sortOrder === SortOrder.ASC) {
     if (titleA < titleB) return -1;
@@ -21,11 +25,17 @@ const compareTabGroups = (tabGroupA: chrome.tabGroups.TabGroup, tabGroupB: chrom
   return 0;
 };
 
-const compareTabGroupsOrderByAsc = (tabGroupA: chrome.tabGroups.TabGroup, tabGroupB: chrome.tabGroups.TabGroup): number => {
+const compareTabGroupsOrderByAsc = (
+  tabGroupA: chrome.tabGroups.TabGroup,
+  tabGroupB: chrome.tabGroups.TabGroup
+): number => {
   return compareTabGroups(tabGroupA, tabGroupB, SortOrder.ASC);
 };
 
-const compareTabGroupsOrderByDesc = (tabGroupA: chrome.tabGroups.TabGroup, tabGroupB: chrome.tabGroups.TabGroup): number => {
+const compareTabGroupsOrderByDesc = (
+  tabGroupA: chrome.tabGroups.TabGroup,
+  tabGroupB: chrome.tabGroups.TabGroup
+): number => {
   return compareTabGroups(tabGroupA, tabGroupB, SortOrder.DESC);
 };
 
