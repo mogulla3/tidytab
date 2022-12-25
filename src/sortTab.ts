@@ -1,12 +1,5 @@
-const enum SortOrder {
-  ASC,
-  DESC,
-}
+import { SortOrder } from "./sortOrder";
 
-// - Remove protocol(http, https).
-// - Remove `www.` prefix from hostname.
-// - Remove searchParams.
-//
 // Example:
 // normalizeUrl(new URL("https://www.mogulla3.tech:9000/foo/bar/baz?q=100"))
 // => "mogulla3.tech:9000/foo/bar/baz"
