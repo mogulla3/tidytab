@@ -5,10 +5,11 @@ export const groupTabsByDomain = (tabs: chrome.tabs.Tab[]): { [key: string]: chr
     }
 
     const url = new URL(tab.url)
-    if (url.hostname in result) {
-      result[url.hostname].push(tab)
+    const hostname = url.hostname.startsWith("www.") ? url.hostname.slice(4) : url.hostname;
+    if (hostname in result) {
+      result[hostname].push(tab)
     } else {
-      result[url.hostname] = [tab]
+      result[hostname] = [tab]
     }
 
     return result;

@@ -27,7 +27,7 @@ describe("groupTabsByDomain", () => {
     const tabA3 = buildTab({ url: "https://a.com:80/1" });
     const tabB1 = buildTab({ url: "https://b.com/1/2/3" });
     const tabB2 = buildTab({ url: "https://b.com/4/5/6" });
-    const tabC1 = buildTab({ url: "https://c.com" });
+    const tabC1 = buildTab({ url: "https://www.c.com" });
 
     const tabs = groupTabsByDomain([tabA1, tabA2, tabA3, tabB1, tabB2, tabC1]);
 
