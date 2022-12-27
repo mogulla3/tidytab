@@ -16,6 +16,9 @@
     },
     "default_popup": "src/index.html"
   },
+  "background": {
+    "service_worker": "src/background.ts"
+  },
   "permissions": [
     "tabs",
     "tabGroups",
