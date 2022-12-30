@@ -1,4 +1,6 @@
 import { SortOrder } from "./sortOrder";
+import { extractTabIds, extractTabGroupIds } from "./utils";
+import { sortTabGroupsOrderByAsc, sortTabGroupsOrderByDesc } from "./sortTabGroup";
 
 // Example:
 // normalizeUrl(new URL("https://www.mogulla3.tech:9000/foo/bar/baz?q=100"))
@@ -45,4 +47,32 @@ export const sortTabsOrderByAsc = (tabs: chrome.tabs.Tab[]): chrome.tabs.Tab[] =
 
 export const sortTabsOrderByDesc = (tabs: chrome.tabs.Tab[]): chrome.tabs.Tab[] => {
   return tabs.sort(compareTabsOrderByDesc);
+};
+
+export const sortTabs = async (sortOrder: SortOrder) => {
+  const tabs = await chrome.tabs.query({ currentWindow: true, groupId: chrome.tabGroups.TAB_GROUP_ID_NONE });
+  const tabGroups = await chrome.tabGroups.query({ windowId: chrome.windows.WINDOW_ID_CURRENT });
+
+  let sortedTabs: chrome.tabs.Tab[] = [];
+  let sortedTabGroups: chrome.tabGroups.TabGroup[] = [];
+
+  if (sortOrder === SortOrder.ASC) {
+    sortedTabs = sortTabsOrderByAsc(tabs);
+    sortedTabGroups = sortTabGroupsOrderByAsc(tabGroups);
+  } else if (sortOrder === SortOrder.DESC) {
+    sortedTabs = sortTabsOrderByDesc(tabs);
+    sortedTabGroups = sortTabGroupsOrderByDesc(tabGroups);
+  }
+
+  const tabIds = extractTabIds(sortedTabs);
+  for (const [index, tabId] of tabIds.entries()) {
+    chrome.tabs.move(tabId, { index: index });
+  }
+
+  // tabGroup を move する際、内包するタブの件数を考慮して index を指定する必要がある.
+  // tabGroup からタブの件数を取るのは面倒なため、先頭に移動させる `index = 0` を逆順に適用することでソートしている
+  const tabGroupIds = extractTabGroupIds(sortedTabGroups);
+  for (const tabGroupId of tabGroupIds.reverse()) {
+    chrome.tabGroups.move(tabGroupId, { index: 0 });
+  }
 };
