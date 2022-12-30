@@ -1,34 +1,68 @@
 import { SortOrder } from "./sortOrder";
+import { actions, ActionType } from "./actions";
 import { sortTabs } from "./sortTab";
 import { groupTabs, ungroupTabs } from "./groupTab";
 import { removeDuplicatedTabs, removeInitialStateTabs, onlyCurrentTab } from "./removeTab";
 
-chrome.runtime.onMessage.addListener(async (message, _sender, sendResponse) => {
-  switch (message.action) {
-    case "sort_asc":
+type Message = {
+  action: ActionType;
+};
+
+const handleAction = (action: ActionType) => {
+  switch (action) {
+    case "sort-asc":
       sortTabs(SortOrder.ASC);
       break;
-    case "sort_desc":
+    case "sort-desc":
       sortTabs(SortOrder.DESC);
       break;
-    case "remove_dup":
+    case "remove-dup":
       removeDuplicatedTabs();
       break;
-    case "remove_initial":
+    case "remove-initial":
       removeInitialStateTabs();
       break;
-    case "only_current_tab":
+    case "only-current-tab":
       onlyCurrentTab();
       break;
-    case "group_tabs":
+    case "group-tabs":
       groupTabs();
       break;
-    case "ungroup_tabs":
+    case "ungroup-tabs":
       ungroupTabs();
       break;
     default:
-      console.log("default");
+      console.log(`ERROR: "${action}" is an unknown action.`);
   }
+};
 
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create(
+    {
+      id: "tidytab-context-menu",
+      title: "tidytab",
+      contexts: ["page"],
+      type: "normal",
+    },
+    () => {
+      for (const [action, description] of actions.entries()) {
+        chrome.contextMenus.create({
+          parentId: "tidytab-context-menu",
+          id: action,
+          title: description,
+          contexts: ["page"],
+          type: "normal",
+        });
+      }
+    }
+  );
+});
+
+chrome.runtime.onMessage.addListener(async (message: Message, _sender, sendResponse) => {
+  handleAction(message.action);
   sendResponse({ result: "OK" });
+});
+
+chrome.contextMenus.onClicked.addListener((info, _tab) => {
+  handleAction(info.menuItemId as ActionType);
 });

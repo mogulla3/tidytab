@@ -1,16 +1,7 @@
 import "./style.css";
+import { actions } from "./actions";
 
-const actions: string[] = [
-  "sort_asc",
-  "sort_desc",
-  "remove_dup",
-  "remove_initial",
-  "only_current_tab",
-  "group_tabs",
-  "ungroup_tabs",
-];
-
-for (const action of actions) {
+for (const action of actions.keys()) {
   document.getElementById(action)?.addEventListener("click", async (_event) => {
     await chrome.runtime.sendMessage({ action: action });
   });
