@@ -50,8 +50,16 @@ export const sortTabsOrderByDesc = (tabs: chrome.tabs.Tab[]): chrome.tabs.Tab[] 
 };
 
 export const sortTabs = async (sortOrder: SortOrder) => {
-  const tabs = await chrome.tabs.query({ currentWindow: true, groupId: chrome.tabGroups.TAB_GROUP_ID_NONE, pinned: false });
-  const pinnedTabs = await chrome.tabs.query({ currentWindow: true, groupId: chrome.tabGroups.TAB_GROUP_ID_NONE, pinned: true });
+  const tabs = await chrome.tabs.query({
+    currentWindow: true,
+    groupId: chrome.tabGroups.TAB_GROUP_ID_NONE,
+    pinned: false,
+  });
+  const pinnedTabs = await chrome.tabs.query({
+    currentWindow: true,
+    groupId: chrome.tabGroups.TAB_GROUP_ID_NONE,
+    pinned: true,
+  });
   const tabGroups = await chrome.tabGroups.query({ windowId: chrome.windows.WINDOW_ID_CURRENT });
 
   let sortedTabs: chrome.tabs.Tab[] = [];
