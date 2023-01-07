@@ -56,8 +56,14 @@ const saveOptions = () => {
       removeWwwSubdomainFromTabGroupName: removeWwwSubdomainFromTabGroupNameOption?.checked,
     },
     () => {
-      // TODO: わかりやすいfeedbackにする
-      console.log("saved!");
+      const saveOptionsButton = document.getElementById("save-options");
+      if (saveOptionsButton) {
+        const currentText = saveOptionsButton.textContent;
+        saveOptionsButton.textContent = "Saved!";
+        setTimeout(() => {
+          saveOptionsButton.textContent = currentText;
+        }, 1500);
+      }
     }
   );
 };
