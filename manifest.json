@@ -16,12 +16,17 @@
     },
     "default_popup": "src/index.html"
   },
+  "options_ui": {
+    "page": "src/options.html",
+    "open_in_tab": false
+  },
   "background": {
     "service_worker": "src/background.ts"
   },
   "permissions": [
-    "tabs",
+    "contextMenus",
+    "storage",
     "tabGroups",
-    "contextMenus"
+    "tabs"
   ]
 }

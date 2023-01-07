@@ -1,0 +1,15 @@
+.option {
+  display: flex;
+}
+.option-name {
+  flex: 3;
+  padding: 10px;
+}
+.option-value {
+  flex: 2;
+  padding: 10px;
+}
+.footer {
+  margin-top: 10px;
+  padding: 5px;
+}

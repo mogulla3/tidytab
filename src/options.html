@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="options">
+        <div class="option">
+          <div class="option-name">
+            Sorting : URL に含まれる www サブドメインを無視する
+          </div>
+          <div class="option-value">
+            <input type="radio" name="ignore-www-subdomain-on-sorting" value="1" id="ignore-www-subdomain-on-sorting-yes">
+            <label for="">Yes</label>
+            <input type="radio" name="ignore-www-subdomain-on-sorting" value="0" id="ignore-www-subdomain-on-sorting-no">
+            <label for="">No</label>
+          </div>
+        </div>
+        <div class="option">
+          <div class="option-name">
+            Sorting : タブグループをタブよりも優先する
+          </div>
+          <div class="option-value">
+            <input type="radio" name="prefer-tagroup-to-tab-on-sorting" value="1" id="prefer-tagroup-to-tab-on-sorting-yes">
+            <label for="">Yes</label>
+            <input type="radio" name="prefer-tagroup-to-tab-on-sorting" value="0" id="prefer-tagroup-to-tab-on-sorting-no">
+            <label for="">No</label>
+          </div>
+        </div>
+        <div class="option">
+          <div class="option-name">
+            Grouping : タブグループ名から www サブドメインを取り除く
+          </div>
+          <div class="option-value">
+            <input type="radio" name="ignore-www-subdomain-on-grouping" value="1" id="ignore-www-subdomain-grouping-yes">
+            <label for="">Yes</label>
+            <input type="radio" name="ignore-www-subdomain-on-grouping" value="0" id="ignore-www-subdomain-grouping-no">
+            <label for="">No</label>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <button id="save-option">Save</button>
+      </div>
+    </div>
+    <script type="module" src="/src/options.ts"></script>
+  </body>
+</html>
