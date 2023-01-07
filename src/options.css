@@ -1,15 +1,33 @@
-.option {
-  display: flex;
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
-.option-name {
+
+input[type="checkbox"] {
+  vertical-align: middle;
+}
+
+.option-block {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.option-block:last-child {
+  margin-bottom: 0;
+}
+
+.option-category {
+  flex: 1;
+  padding: 10px;
+  font-size: 120%;
+}
+
+.option-values {
   flex: 3;
   padding: 10px;
 }
-.option-value {
-  flex: 2;
-  padding: 10px;
-}
+
 .footer {
-  margin-top: 10px;
-  padding: 5px;
+  margin: 20px 10px;
 }
