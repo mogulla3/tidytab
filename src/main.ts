@@ -6,3 +6,9 @@ for (const action of actions.keys()) {
     await chrome.runtime.sendMessage({ action: action });
   });
 }
+
+document.getElementById("go-to-options")?.addEventListener("click", () => {
+  if (chrome.runtime.openOptionsPage) {
+    chrome.runtime.openOptionsPage();
+  }
+});
