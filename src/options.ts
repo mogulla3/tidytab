@@ -1,5 +1,11 @@
 import "./options.css";
 
+export type Options = {
+  ignoreWwwSubdomainOnSorting: boolean;
+  preferTagGroupToTabOnSorting: boolean;
+  removeWwwSubdomainFromTabGroupName: boolean;
+};
+
 const ignoreWwwSubdomainOnSortingId = "ignore-www-subdomain-on-sorting";
 const preferTagGroupToTabOnSortingId = "prefer-tagroup-to-tab-on-sorting";
 const removeWwwSubdomainFromTabGroupNameId = "remove-www-subdomain-from-tabgroup-name";
@@ -12,7 +18,7 @@ const restoreOptions = () => {
       preferTagGroupToTabOnSorting: true,
       removeWwwSubdomainFromTabGroupName: true,
     },
-    function (options) {
+    (options) => {
       const ignoreWwwSubdomainOnSortingOption = document.getElementById(
         ignoreWwwSubdomainOnSortingId
       ) as HTMLInputElement | null;
