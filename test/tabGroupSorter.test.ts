@@ -1,5 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
-import { sortTabGroupsOrderByAsc, sortTabGroupsOrderByDesc } from "../src/sortTabGroup";
+import { TabGroupSorter } from "../src/tabGroupSorter";
+import { SortOrder } from "../src/sortOrder";
 
 const buildTabGroup = (title: string): chrome.tabGroups.TabGroup => {
   return {
@@ -11,13 +12,16 @@ const buildTabGroup = (title: string): chrome.tabGroups.TabGroup => {
   }
 }
 
-describe("sortTabGroupsOrderByAsc", () => {
+describe("run with SortOrder.ASC argument", () => {
   test("returns tabGroups sorted by title in asc order", () => {
-    const tabGroups = sortTabGroupsOrderByAsc([
-      buildTabGroup("c.com"),
-      buildTabGroup("a.com"),
-      buildTabGroup("b.com"),
-    ]);
+    const tabGroupSorter = new TabGroupSorter(
+      [
+        buildTabGroup("c.com"),
+        buildTabGroup("a.com"),
+        buildTabGroup("b.com"),
+      ],
+    )
+    const tabGroups = tabGroupSorter.run(SortOrder.ASC)
 
     expect(tabGroups[0].title).toBe("a.com")
     expect(tabGroups[1].title).toBe("b.com")
@@ -25,13 +29,16 @@ describe("sortTabGroupsOrderByAsc", () => {
   });
 });
 
-describe("sortTabGroupsOrderByDesc", () => {
+describe("run with SortOrder.DESC argument", () => {
   test("returns tabGroups sorted by title in desc order", () => {
-    const tabGroups = sortTabGroupsOrderByDesc([
-      buildTabGroup("c.com"),
-      buildTabGroup("a.com"),
-      buildTabGroup("b.com"),
-    ]);
+    const tabGroupSorter = new TabGroupSorter(
+      [
+        buildTabGroup("c.com"),
+        buildTabGroup("a.com"),
+        buildTabGroup("b.com"),
+      ],
+    )
+    const tabGroups = tabGroupSorter.run(SortOrder.DESC)
 
     expect(tabGroups[0].title).toBe("c.com")
     expect(tabGroups[1].title).toBe("b.com")
