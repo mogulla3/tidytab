@@ -1,5 +1,12 @@
 import { describe, expect, test } from '@jest/globals';
-import { sortTabsOrderByAsc, sortTabsOrderByDesc } from "../src/sortTab";
+import { TabSorter } from "../src/tabSorter";
+import { SortOrder } from "../src/sortOrder";
+
+const defaultOptions = {
+  ignoreWwwSubdomainOnSorting: true,
+  preferTagGroupToTabOnSorting: true,
+  removeWwwSubdomainFromTabGroupName: true,
+};
 
 const buildTab = (props: Pick<chrome.tabs.Tab, "url">): chrome.tabs.Tab => {
   return Object.assign(
@@ -19,14 +26,18 @@ const buildTab = (props: Pick<chrome.tabs.Tab, "url">): chrome.tabs.Tab => {
   );
 }
 
-describe("sortTabsOrderByAsc", () => {
+describe("run with SortOrder.ASC argument", () => {
   test("returns tabs sorted by URL in asc order", () => {
-    const tabs = sortTabsOrderByAsc([
-      buildTab({ url: "https://b.com" }),
-      buildTab({ url: "https://c.com/2" }),
-      buildTab({ url: "https://c.com/1" }),
-      buildTab({ url: "https://a.com" }),
-    ]);
+    const tabSorter = new TabSorter(
+      [
+        buildTab({ url: "https://b.com" }),
+        buildTab({ url: "https://c.com/2" }),
+        buildTab({ url: "https://c.com/1" }),
+        buildTab({ url: "https://a.com" }),
+      ],
+      defaultOptions,
+    )
+    const tabs = tabSorter.run(SortOrder.ASC)
 
     expect(tabs[0].url).toBe("https://a.com")
     expect(tabs[1].url).toBe("https://b.com")
@@ -36,10 +47,14 @@ describe("sortTabsOrderByAsc", () => {
 
   describe("when a tab with URL containing `www` subdomain exists", () => {
     test("returns tabs sorted by URL in asc order ignoring www subdomain", () => {
-      const tabs = sortTabsOrderByAsc([
-        buildTab({ url: "https://b.com" }),
-        buildTab({ url: "https://www.a.com" }),
-      ]);
+      const tabSorter = new TabSorter(
+        [
+          buildTab({ url: "https://b.com" }),
+          buildTab({ url: "https://www.a.com" }),
+        ],
+        defaultOptions,
+      )
+      const tabs = tabSorter.run(SortOrder.ASC)
 
       expect(tabs[0].url).toBe("https://www.a.com")
       expect(tabs[1].url).toBe("https://b.com")
@@ -48,10 +63,14 @@ describe("sortTabsOrderByAsc", () => {
 
   describe("when a tab with URL containing `http` scheme exists", () => {
     test("returns tabs sorted by URL in asc order ignoring schemes", () => {
-      const tabs = sortTabsOrderByAsc([
-        buildTab({ url: "http://b.com" }),
-        buildTab({ url: "https://a.com" }),
-      ]);
+      const tabSorter = new TabSorter(
+        [
+          buildTab({ url: "http://b.com" }),
+          buildTab({ url: "https://a.com" }),
+        ],
+        defaultOptions,
+      )
+      const tabs = tabSorter.run(SortOrder.ASC)
 
       expect(tabs[0].url).toBe("https://a.com")
       expect(tabs[1].url).toBe("http://b.com")
@@ -61,12 +80,16 @@ describe("sortTabsOrderByAsc", () => {
 
 describe("sortTabsOrderByDesc", () => {
   test("returns tabs sorted by URL in desc order", () => {
-    const tabs = sortTabsOrderByDesc([
-      buildTab({ url: "https://b.com" }),
-      buildTab({ url: "https://c.com/2" }),
-      buildTab({ url: "https://c.com/1" }),
-      buildTab({ url: "https://a.com" }),
-    ]);
+    const tabSorter = new TabSorter(
+      [
+        buildTab({ url: "https://b.com" }),
+        buildTab({ url: "https://c.com/2" }),
+        buildTab({ url: "https://c.com/1" }),
+        buildTab({ url: "https://a.com" }),
+      ],
+      defaultOptions,
+    )
+    const tabs = tabSorter.run(SortOrder.DESC)
 
     expect(tabs[0].url).toBe("https://c.com/2")
     expect(tabs[1].url).toBe("https://c.com/1")
@@ -76,10 +99,14 @@ describe("sortTabsOrderByDesc", () => {
 
   describe("when a tab with URL containing `www` subdomain exists", () => {
     test("returns tabs sorted by URL in desc order ignoring www subdomain", () => {
-      const tabs = sortTabsOrderByDesc([
-        buildTab({ url: "https://b.com" }),
-        buildTab({ url: "https://www.a.com" }),
-      ]);
+      const tabSorter = new TabSorter(
+        [
+          buildTab({ url: "https://b.com" }),
+          buildTab({ url: "https://www.a.com" }),
+        ],
+        defaultOptions,
+      )
+      const tabs = tabSorter.run(SortOrder.DESC)
 
       expect(tabs[0].url).toBe("https://b.com")
       expect(tabs[1].url).toBe("https://www.a.com")
@@ -88,10 +115,14 @@ describe("sortTabsOrderByDesc", () => {
 
   describe("when a tab with URL containing `http` scheme exists", () => {
     test("returns tabs sorted by URL in desc order ignoring schemes", () => {
-      const tabs = sortTabsOrderByDesc([
+      const tabSorter = new TabSorter(
+        [
         buildTab({ url: "http://b.com" }),
         buildTab({ url: "https://a.com" }),
-      ]);
+        ],
+        defaultOptions,
+      )
+      const tabs = tabSorter.run(SortOrder.DESC)
 
       expect(tabs[0].url).toBe("http://b.com")
       expect(tabs[1].url).toBe("https://a.com")
