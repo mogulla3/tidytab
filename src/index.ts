@@ -1,4 +1,4 @@
-import "./main.css";
+import "./index.css";
 import { actions } from "./actions";
 
 for (const action of actions.keys()) {
