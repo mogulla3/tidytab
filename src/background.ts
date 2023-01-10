@@ -1,6 +1,6 @@
 import { SortOrder } from "./sortOrder";
 import { actions, ActionType } from "./actions";
-import { sortTabs } from "./sortTab";
+import { Sorter } from "./Sorter";
 import { groupTabs, ungroupTabs } from "./groupTab";
 import { removeDuplicatedTabs, removeInitialStateTabs, onlyCurrentTab } from "./removeTab";
 
@@ -8,14 +8,18 @@ type Message = {
   action: ActionType;
 };
 
-const handleAction = (action: ActionType) => {
+const handleAction = async (action: ActionType) => {
   switch (action) {
-    case "sort-asc":
-      sortTabs(SortOrder.ASC);
+    case "sort-asc": {
+      const sorter = new Sorter();
+      sorter.run(SortOrder.ASC);
       break;
-    case "sort-desc":
-      sortTabs(SortOrder.DESC);
+    }
+    case "sort-desc": {
+      const sorter = new Sorter();
+      sorter.run(SortOrder.DESC);
       break;
+    }
     case "remove-dup":
       removeDuplicatedTabs();
       break;
