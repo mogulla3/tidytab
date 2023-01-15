@@ -20,6 +20,12 @@ const buildTab = (props: Pick<chrome.tabs.Tab, "url">): chrome.tabs.Tab => {
   );
 }
 
+const defaultOptions = {
+  ignoreWwwSubdomainOnSorting: true,
+  preferTagGroupToTabOnSorting: true,
+  removeWwwSubdomainFromTabGroupName: true,
+};
+
 describe("groupTabsByDomain", () => {
   test("returns tabs grouped by domain", () => {
     const tabA1 = buildTab({ url: "https://a.com" });
@@ -29,7 +35,7 @@ describe("groupTabsByDomain", () => {
     const tabB2 = buildTab({ url: "https://b.com/4/5/6" });
     const tabC1 = buildTab({ url: "https://www.c.com" });
 
-    const tabs = groupTabsByDomain([tabA1, tabA2, tabA3, tabB1, tabB2, tabC1]);
+    const tabs = groupTabsByDomain([tabA1, tabA2, tabA3, tabB1, tabB2, tabC1], defaultOptions);
 
     expect(tabs).toHaveProperty(["a.com"], [tabA1, tabA2, tabA3]);
     expect(tabs).toHaveProperty(["b.com"], [tabB1, tabB2]);
