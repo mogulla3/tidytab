@@ -17,13 +17,25 @@ export class Sorter {
     const sortedTabs = tabSorter.run(sortOrder);
     const sortedTabGroups = tabGroupSorter.run(sortOrder);
 
+    // tabGroup を move する際、内包するタブの件数を考慮して index を指定する必要がある.
+    // tabGroup からタブの件数を取るのは面倒なため、先頭に移動させる `index = 0` を逆順に適用することでソートしている
+    if (options.preferTagGroupToTabOnSorting) {
+      this.rearrangeTabs(sortedTabs, pinnedTabs);
+      this.rearrangeTabGroups(sortedTabGroups, pinnedTabs);
+    } else {
+      this.rearrangeTabGroups(sortedTabGroups, pinnedTabs);
+      this.rearrangeTabs(sortedTabs, pinnedTabs);
+    }
+  }
+
+  private rearrangeTabs(sortedTabs: chrome.tabs.Tab[], pinnedTabs: chrome.tabs.Tab[]) {
     const tabIds = extractTabIds(sortedTabs);
     for (const [index, tabId] of tabIds.entries()) {
       chrome.tabs.move(tabId, { index: index + pinnedTabs.length });
     }
+  }
 
-    // tabGroup を move する際、内包するタブの件数を考慮して index を指定する必要がある.
-    // tabGroup からタブの件数を取るのは面倒なため、先頭に移動させる `index = 0` を逆順に適用することでソートしている
+  private rearrangeTabGroups(sortedTabGroups: chrome.tabGroups.TabGroup[], pinnedTabs: chrome.tabs.Tab[]) {
     const tabGroupIds = extractTabGroupIds(sortedTabGroups);
     for (const tabGroupId of tabGroupIds.reverse()) {
       chrome.tabGroups.move(tabGroupId, { index: 0 + pinnedTabs.length });
